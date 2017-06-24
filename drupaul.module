@@ -1,0 +1,85 @@
+<?php
+
+/**
+ * @file
+ * Functionality for the dRuPaul module.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function drupaul_menu() {
+  $items = array();
+
+  $items['admin/config/drupaul'] = array(
+    'title' => 'dRuPaul Configuration',
+    'description' => 'Settings for the dRuPaul productivity tool.',
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'position' => 'right',
+    'weight' => -100,
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+
+  $items['admin/config/drupaul/settings'] = array(
+    'title' => 'dRuPaul Field Settings',
+    'description' => 'Configuration the dRuPaul field settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('drupaul_admin_settings'),
+    'file' => 'drupaul.admin.inc',
+    'file path' => drupal_get_path('module', 'drupaul') . '/includes',
+    'access arguments' => array('administer drupaul settings'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function drupaul_permission() {
+  $items = array();
+
+  $items['administer drupaul settings'] = array(
+    'title' => t('Administer dRuPaul Settings'),
+    'description' => t('Perform administration tasks for dRuPaul.'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_entity_view_alter().
+ */
+function drupaul_entity_view_alter(&$build, $type) {
+  module_load_include('inc', 'drupaul', 'includes/drupaul.util');
+
+  // Grab the selected entities and bundles.
+  $drupaul_entities = variable_get('drupaul_chosen_entities', array());
+  $drupaul_bundles = variable_get('drupaul_chosen_bundles', array());
+
+  if (!empty($drupaul_entities[$build['#entity_type']])) {
+    if (!empty($drupaul_bundles[$build['#bundle']])) {
+      // Get all the field instances on this bundle so we can
+      // find the image fields to replace.
+      $field_instances = field_info_instances($build['#entity_type'], $build['#bundle']);
+      foreach ($field_instances as $field_name => $field) {
+        $field_info = field_info_field($field_name);
+
+        // If this field is an image field then we have work to do.
+        if ($field_info['type'] == 'image') {
+          // Time to get our Ru Paul on!
+          _drupaul_make_the_magic_happen($build, $field_name);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_drupaul_search_terms_alter().
+ */
+function drupaul_drupaul_search_terms_alter(&$search_terms) {
+  $search_terms[] = 'rupaul';
+}

@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * @file
+ * Install functionality for the dRuPaul module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function drupaul_install() {
+  variable_set('drupaul_api_key', 'f26eec450f2349ff89a90e710ff4e509');
+  variable_set('drupaul_giphy_url', 'https://api.giphy.com/v1/gifs/random');
+}
