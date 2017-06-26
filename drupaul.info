@@ -2,4 +2,4 @@ name = dRuPaul
 description = Swap some images for some Ru Paul.
 core = 7.x
 
-files[] = includes/drupaul_service.class.inc
+#files[] = includes/drupaul_service.class.inc

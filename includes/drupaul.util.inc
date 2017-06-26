@@ -9,11 +9,11 @@
  * Swap any mundane images with glamorous Ru Paul photos.
  *
  * @param array $build
- *    The entity build array.
+ *   The entity build array.
  * @param string $field_name
- *    The field name to glamorize.
+ *   The field name to glamorize.
  */
-function _drupaul_make_the_magic_happen(&$build, $field_name) {
+function _drupaul_make_the_magic_happen(array &$build, $field_name) {
   if (!empty($build[$field_name])) {
     foreach ($build[$field_name] as $key => $field) {
       if (!is_numeric($key)) {
@@ -27,7 +27,7 @@ function _drupaul_make_the_magic_happen(&$build, $field_name) {
             '#type' => 'container',
             'image' => array(
               '#theme' => 'image',
-              '#path' => drupal_get_path('module', 'drupaul') . '/images/powered-by-giphy.png', 
+              '#path' => drupal_get_path('module', 'drupaul') . '/images/powered-by-giphy.png',
               '#alt' => t('Powered By Giphy'),
               '#title' => t('Powered By Giphy'),
             ),
@@ -55,7 +55,7 @@ function _drupaul_make_the_magic_happen(&$build, $field_name) {
  * Generate a random Ru Paul image.
  *
  * @return string
- *    The image uri.
+ *   The image uri.
  */
 function _drupaul_generate_random_image() {
   $uri = '';
@@ -65,7 +65,7 @@ function _drupaul_generate_random_image() {
   $params = array(
     'api_key' => variable_get('drupaul_api_key'),
     'tag' => _drupaul_get_search_terms(),
-    'rating' => 'g'
+    'rating' => 'g',
   );
 
   // Add in the query params.
@@ -98,9 +98,9 @@ function _drupaul_generate_random_image() {
 
 /**
  * Get a string of search terms for Giphy.
- * 
+ *
  * @return string
- *    A string of search terms to search for.
+ *   A string of search terms to search for.
  */
 function _drupaul_get_search_terms() {
   $terms = array(

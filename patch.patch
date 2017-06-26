@@ -1,0 +1,178 @@
+diff --git a/README.md b/README.md
+index b9546e3..f356de8 100644
+--- a/README.md
++++ b/README.md
+@@ -1,21 +1,31 @@
+ dRuPaul Drupal 7 Module
+ =======================
+ 
+-### A productivity module for all enterprise-level webmasters and their loved ones.
++### A productivity module for all enterprise-level webmasters and their
++loved ones.
+ 
+ ---
+ 
+ Introduction
+ ------------
+ 
+-If you have come this far then either you love productivity, or you love Ru Paul. Or both. Alternatively, you're just curious and evaluating my sanity. Either way, I think we can agree you have come to the right place.
++If you have come this far then either you love productivity, or you love
++Ru Paul. Or both. Alternatively, you're just curious and evaluating my
++sanity. Either way, I think we can agree you have come to the right place.
+ 
+-At the heart of it, the dRuPaul Drupal 7 module is a revolution in site management. What dRuPaul does that other competitors such as Microsoft and KFC cannot do is change the way a webmaster thinks about their content strategy. This shift in content paradigm can be a tough pill to swallow at times. Especially for those who fear change - which accounts for most humans, ever. 
++At the heart of it, the dRuPaul Drupal 7 module is a revolution in site
++management. What dRuPaul does that other competitors such as Microsoft and
++KFC cannot do is change the way a webmaster thinks about their content
++strategy. This shift in content paradigm can be a tough pill to swallow at
++times. Especially for those who fear change - which accounts for most
++humans, ever. 
+ 
+ Enough Big Words, What Does This Do?
+ ------------------------------------
+ 
+-What doesn't this do would be a more apt question. Here are some of the things dRuPaul does not do, however, feel free to fork the repository and open up a pull-request for any of the below.
++What doesn't this do would be a more apt question. Here are some of the
++things dRuPaul does not do, however, feel free to fork the repository and
++open up a pull-request for any of the below.
+ 
+ * Cook your dinner.
+ * Score you a hot date on a Friday night.
+@@ -31,7 +41,8 @@ Cool.
+ 
+ Yes. Cool. Here are some things it can do.
+ 
+-* Replace any image uploaded via a Field API field with a glorious, animated gif of the wonderous Ru Paul.
++* Replace any image uploaded via a Field API field with a glorious,
++  animated gif of the wonderous Ru Paul.
+ 
+ Installation
+ ------------
+@@ -47,8 +58,11 @@ To install this you will need to do the following:
+ Configuration
+ -------------
+ 
+-Log in as an administrator (as if you ever do anything but that) and navigate to /admin/config/drupaul/settings.
++Log in as an administrator (as if you ever do anything but that) and
++navigate to /admin/config/drupaul/settings.
+ 
+-Select the entities and bundles for which you want to replace your mundane stock images with fantastic, elegant, and flamboyant gifs of Ru Paul.
++Select the entities and bundles for which you want to replace your mundane
++stock images with fantastic, elegant, and flamboyant gifs of Ru Paul.
+ 
+-Enjoy the fruits of your labor. Retire early. Travel the world. And enjoy your new sense of self-worth.
+\ No newline at end of file
++Enjoy the fruits of your labor. Retire early. Travel the world. And enjoy
++your new sense of self-worth.
+diff --git a/drupaul.info b/drupaul.info
+index 4689b09..3676190 100644
+--- a/drupaul.info
++++ b/drupaul.info
+@@ -2,4 +2,4 @@ name = dRuPaul
+ description = Swap some images for some Ru Paul.
+ core = 7.x
+ 
+-files[] = includes/drupaul_service.class.inc
+\ No newline at end of file
++#files[] = includes/drupaul_service.class.inc
+diff --git a/drupaul.install b/drupaul.install
+index 95a0f83..5b56935 100644
+--- a/drupaul.install
++++ b/drupaul.install
+@@ -11,4 +11,4 @@
+ function drupaul_install() {
+   variable_set('drupaul_api_key', 'f26eec450f2349ff89a90e710ff4e509');
+   variable_set('drupaul_giphy_url', 'https://api.giphy.com/v1/gifs/random');
+-}
+\ No newline at end of file
++}
+diff --git a/includes/drupaul.admin.inc b/includes/drupaul.admin.inc
+index ccac7a0..c6139f7 100644
+--- a/includes/drupaul.admin.inc
++++ b/includes/drupaul.admin.inc
+@@ -2,15 +2,15 @@
+ 
+ /**
+  * @file
+- * dRuPaul Productivity Tool Admin Functionality.
++ * DRuPaul Productivity Tool Admin Functionality.
+  */
+ 
+- /**
+-  * Page Callback: drupaul_admin_settings
+-  */
+- function drupaul_admin_settings() {
++/**
++ * Page Callback: drupaul_admin_settings.
++ */
++function drupaul_admin_settings() {
+   $entity_types = field_info_bundles();
+-  
++
+   $entities = $bundles = array();
+   if (!empty($entity_types)) {
+     $entities = array_keys($entity_types);
+@@ -39,4 +39,4 @@
+ 
+   return system_settings_form($form);
+ 
+- }
++}
+diff --git a/includes/drupaul.util.inc b/includes/drupaul.util.inc
+index c4701b7..babc68e 100644
+--- a/includes/drupaul.util.inc
++++ b/includes/drupaul.util.inc
+@@ -9,11 +9,11 @@
+  * Swap any mundane images with glamorous Ru Paul photos.
+  *
+  * @param array $build
+- *    The entity build array.
++ *   The entity build array.
+  * @param string $field_name
+- *    The field name to glamorize.
++ *   The field name to glamorize.
+  */
+-function _drupaul_make_the_magic_happen(&$build, $field_name) {
++function _drupaul_make_the_magic_happen(array &$build, $field_name) {
+   if (!empty($build[$field_name])) {
+     foreach ($build[$field_name] as $key => $field) {
+       if (!is_numeric($key)) {
+@@ -27,7 +27,7 @@ function _drupaul_make_the_magic_happen(&$build, $field_name) {
+             '#type' => 'container',
+             'image' => array(
+               '#theme' => 'image',
+-              '#path' => drupal_get_path('module', 'drupaul') . '/images/powered-by-giphy.png', 
++              '#path' => drupal_get_path('module', 'drupaul') . '/images/powered-by-giphy.png',
+               '#alt' => t('Powered By Giphy'),
+               '#title' => t('Powered By Giphy'),
+             ),
+@@ -55,7 +55,7 @@ function _drupaul_make_the_magic_happen(&$build, $field_name) {
+  * Generate a random Ru Paul image.
+  *
+  * @return string
+- *    The image uri.
++ *   The image uri.
+  */
+ function _drupaul_generate_random_image() {
+   $uri = '';
+@@ -65,7 +65,7 @@ function _drupaul_generate_random_image() {
+   $params = array(
+     'api_key' => variable_get('drupaul_api_key'),
+     'tag' => _drupaul_get_search_terms(),
+-    'rating' => 'g'
++    'rating' => 'g',
+   );
+ 
+   // Add in the query params.
+@@ -98,9 +98,9 @@ function _drupaul_generate_random_image() {
+ 
+ /**
+  * Get a string of search terms for Giphy.
+- * 
++ *
+  * @return string
+- *    A string of search terms to search for.
++ *   A string of search terms to search for.
+  */
+ function _drupaul_get_search_terms() {
+   $terms = array(

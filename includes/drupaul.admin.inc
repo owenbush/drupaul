@@ -2,15 +2,15 @@
 
 /**
  * @file
- * dRuPaul Productivity Tool Admin Functionality.
+ * DRuPaul Productivity Tool Admin Functionality.
  */
 
- /**
-  * Page Callback: drupaul_admin_settings
-  */
- function drupaul_admin_settings() {
+/**
+ * Page Callback: drupaul_admin_settings.
+ */
+function drupaul_admin_settings() {
   $entity_types = field_info_bundles();
-  
+
   $entities = $bundles = array();
   if (!empty($entity_types)) {
     $entities = array_keys($entity_types);
@@ -39,4 +39,4 @@
 
   return system_settings_form($form);
 
- }
+}
